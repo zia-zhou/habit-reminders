@@ -4,7 +4,7 @@ import { useState, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-const HabitAccess = () => {
+const ModifyHabits = () => {
     const [passcode, setPasscode] = useState('');
     const [error, setError] = useState('');
 
@@ -14,7 +14,7 @@ const HabitAccess = () => {
         setPasscode(e.target.value);
     };
 
-    const handleEditClick = async () => {
+    const handleModifyClick = async () => {
         try {
             const response = await fetch(`${process.env.NEXT_PUBLIC_AWS_API_GATEWAY_URL}/${passcode}`);
 
@@ -26,7 +26,7 @@ const HabitAccess = () => {
                 localStorage.setItem('ID', JSON.stringify(habit.id));
                 console.log(habit);
 
-                router.push(`/habits/modify/${passcode}`);
+                router.push(`/habits/session/${passcode}`);
             } else {
                 setError('Invalid passcode or error fetching data.');
             }
@@ -73,10 +73,10 @@ const HabitAccess = () => {
                 <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                     <div className="text-center mb-8">
                         <h1 className="text-3xl font-bold text-emerald-800 mb-4">
-                            Enter Your Habit Code
+                            Start Habit Session
                         </h1>
                         <p className="text-lg text-emerald-700">
-                            Please enter your unique habit code to access and manage your habits.
+                            Enter your habit code to start your habit session.
                         </p>
                     </div>
 
@@ -103,10 +103,10 @@ const HabitAccess = () => {
                             )}
                             <div className="flex justify-center space-x-4">
                                 <button
-                                    onClick={handleEditClick}
+                                    onClick={handleModifyClick}
                                     className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
                                 >
-                                    Submit
+                                    Start Session
                                 </button>
                                 <button
                                     onClick={handleBackClick}
@@ -132,4 +132,4 @@ const HabitAccess = () => {
     );
 };
 
-export default HabitAccess;
+export default ModifyHabits;

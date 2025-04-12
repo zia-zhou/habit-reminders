@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
-import { useRouter } from 'next/navigation'; 
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 type Habit = {
   id: number;
@@ -160,98 +161,165 @@ const Habits = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Create & Edit Your Habits</h1>
-
-      <div className="mb-4">
-        <p className="text-lg font-semibold">Your Habit List Passcode: {passcode}</p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="habit-description" className="block text-lg">Habit Description:</label>
-          <input
-            type="text"
-            id="habit-description"
-            value={habitDescription} 
-            onChange={handleDescriptionChange}
-            placeholder="E.g., Drink 8 cups of water"
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="habit-time" className="block text-lg">Habit Time of Day:</label>
-          <select
-            id="habit-time"
-            value={habitTime} 
-            onChange={handleTimeChange}
-            required
-            className="w-full p-2 border border-gray-300 rounded"
-          >
-            <option value="">Select Time of Day</option>
-            <option value="morning">Morning</option>
-            <option value="afternoon">Afternoon</option>
-            <option value="evening">Evening</option>
-          </select>
-        </div>
-
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded mt-4">
-          {editingHabitId ? 'Update Habit' : 'Add Habit'}
-        </button>
-      </form>
-
-      <h2 className="text-2xl font-semibold mt-8">Your Habits</h2>
-      <ul className="mt-4">
-        {habits.map((habit) => (
-          <li key={habit.id} className="mb-2 flex justify-between items-center">
-            <div>
-              <strong>{habit.description}</strong> - <span className="italic">{habit.time}</span>
+    <main className="min-h-screen flex flex-col bg-emerald-50">
+      {/* Navigation Bar */}
+      <nav className="bg-emerald-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center space-x-4">
+              <Link href="/" className="text-xl font-bold text-white hover:text-emerald-100">
+                Habit Reminder
+              </Link>
             </div>
-            <div className="ml-4 flex items-center">
-              <label className="mr-2">
-                <input
-                  type="checkbox"
-                  checked={habit.completed}
-                  onChange={() => handleCompletionChange(habit.id)}
-                  className="mr-2"
-                />
-                Completed
-              </label>
-
-              <button
-                onClick={() => handleEdit(habit.id)}
-                className="bg-yellow-400 text-white p-1 rounded mr-2"
+            <div className="flex items-center space-x-4">
+              <Link
+                href="/instructions"
+                className="text-white hover:text-emerald-100 px-3 py-2 rounded-md text-sm font-medium"
               >
-                Edit
+                How to Use
+              </Link>
+              <Link
+                href="/"
+                className="text-white hover:text-emerald-100 px-3 py-2 rounded-md text-sm font-medium"
+              >
+                Home
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <div className="flex-grow">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-emerald-800 mb-4">
+              Create & Manage Your Habits
+            </h1>
+            <div className="bg-emerald-100 p-4 rounded-lg inline-block">
+              <p className="text-emerald-700 font-medium">
+                Your Habit List Passcode: <span className="font-bold">{passcode}</span>
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="habit-description" className="block text-sm font-medium text-emerald-700 mb-2">
+                    Habit Description
+                  </label>
+                  <input
+                    type="text"
+                    id="habit-description"
+                    value={habitDescription}
+                    onChange={handleDescriptionChange}
+                    placeholder="E.g., Drink 8 cups of water"
+                    required
+                    className="w-full p-3 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="habit-time" className="block text-sm font-medium text-emerald-700 mb-2">
+                    Time of Day
+                  </label>
+                  <select
+                    id="habit-time"
+                    value={habitTime}
+                    onChange={handleTimeChange}
+                    required
+                    className="w-full p-3 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                  >
+                    <option value="">Select Time of Day</option>
+                    <option value="morning">Morning</option>
+                    <option value="afternoon">Afternoon</option>
+                    <option value="evening">Evening</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                >
+                  {editingHabitId ? 'Update Habit' : 'Add Habit'}
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h2 className="text-2xl font-semibold text-emerald-800 mb-6">Your Habits</h2>
+            <div className="space-y-4">
+              {habits.map((habit) => (
+                <div
+                  key={habit.id}
+                  className="flex items-center justify-between p-4 bg-emerald-50 rounded-lg"
+                >
+                  <div className="flex items-center space-x-4">
+                    <input
+                      type="checkbox"
+                      checked={habit.completed}
+                      onChange={() => handleCompletionChange(habit.id)}
+                      className="h-5 w-5 text-emerald-600 rounded focus:ring-emerald-500"
+                    />
+                    <div>
+                      <p className={`font-medium ${habit.completed ? 'line-through text-emerald-500' : 'text-emerald-800'}`}>
+                        {habit.description}
+                      </p>
+                      <p className="text-sm text-emerald-600">
+                        {habit.time.charAt(0).toUpperCase() + habit.time.slice(1)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleEdit(habit.id)}
+                      className="text-emerald-600 hover:text-emerald-800 p-2 rounded-lg hover:bg-emerald-100"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(habit.id)}
+                      className="text-red-600 hover:text-red-800 p-2 rounded-lg hover:bg-red-100"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex justify-center space-x-4">
+              <button
+                onClick={saveHabitsToDatabase}
+                className="bg-emerald-500 hover:bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+              >
+                Save to Database
               </button>
               <button
-                onClick={() => handleDelete(habit.id)}
-                className="bg-red-500 text-white p-1 rounded"
+                onClick={() => router.push('/')}
+                className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
               >
-                Delete
+                Back to Home
               </button>
             </div>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-4">
-        <button
-          onClick={saveHabitsToDatabase}
-          className="bg-green-500 text-white p-2 rounded"
-        >
-          Save to Database
-        </button>
-        <button
-          onClick={() => router.push('/')}  
-          className="mb-4 py-2 px-4 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition"
-        >
-          Back to Home
-        </button>
+          </div>
+        </div>
       </div>
-    </div>
+
+      {/* Footer */}
+      <footer className="bg-emerald-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center">
+            <p className="text-emerald-100">© {new Date().getFullYear()} Habit Reminder. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </main>
   );
 };
 
