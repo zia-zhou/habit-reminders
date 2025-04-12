@@ -2,6 +2,6 @@ Next.JS application that allows you to set daily reminders to help you build goo
 
 Hosted on AWS Amplify with Lambda, API gateway, DynamoDB
 
-Code is on Master Branch
+Code is on UI Branch
 
-https://master.dnixofuvrv8zv.amplifyapp.com/
+The online demo is at https://ui-update.dnixofuvrv8zv.amplifyapp.com
